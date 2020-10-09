@@ -1,5 +1,6 @@
 FROM alpine:3.12.0
 
 RUN apk add unbound
+ADD http://www.internic.net/domain/named.cache /var/lib/unbound/root.hints
 EXPOSE 53
-CMD 
+ENTRYPOINT ["/usr/sbin/unbound", "-d"]

@@ -1,0 +1,26 @@
+# Office Management
+
+version: "3.8"
+services:
+  dns:
+    build:
+      context: DNS
+      dockerfile: dockerfile
+    networks:
+      internal:
+        ipv4_address: 10.0.0.10
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    volumes:
+      - type: bind
+        source: ./DNS/conf
+        target: /etc/unbound
+
+networks:
+  internal:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
+          gateway: 10.0.0.1

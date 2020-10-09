@@ -9,6 +9,8 @@
 
 ### Why install a DNS server?
 
+By setting up a DNS server we can afford to deny all DNS traffic adressed to other DNS servers than ours.
+
 ### Why use Unbound
 
 ### How to

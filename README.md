@@ -11,6 +11,8 @@
 
 By setting up a DNS server we can afford to deny all DNS traffic adressed to other DNS servers than ours.
 
+The 1st reason why we are concerned about that is the risk of 
+
 ### Why use Unbound
 
 ### How to

@@ -16,6 +16,20 @@ services:
       - type: bind
         source: ./DNS/conf
         target: /etc/unbound
+        read_only: true
+  dhcp:
+    build:
+      context: DHCP
+      dockerfile: dockerfile
+    network_mode: host
+    volumes:
+      - type: bind
+        source: ./DHCP/conf
+        target: /etc/dhcp/
+        read_only: true
+      - type: volume
+        source: leases
+        target: /var/lib/dhcp/
 
 networks:
   internal:
@@ -24,3 +38,6 @@ networks:
       config:
         - subnet: 10.0.0.0/16
           gateway: 10.0.0.1
+
+volumes:
+  leases:

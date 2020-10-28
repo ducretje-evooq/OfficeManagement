@@ -2,4 +2,4 @@ FROM alpine:3.12.0
 
 RUN apk add dhcp;touch /var/lib/dhcp/dhcpd.leases
 EXPOSE 67
-ENTRYPOINT ["/usr/sbin/dhcpd", "-lf", "/var/lib/dhcp/dhcpd.leases", "-cf", "/etc/dhcp/dhcpd.conf"]
+ENTRYPOINT ["/usr/sbin/dhcpd", "-f", "-lf", "/var/lib/dhcp/dhcpd.leases", "-cf", "/etc/dhcp/dhcpd.conf"]

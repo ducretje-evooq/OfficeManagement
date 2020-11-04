@@ -1,0 +1,43 @@
+# Office Management
+
+version: "3.8"
+services:
+  dns:
+    build:
+      context: DNS
+      dockerfile: dockerfile
+    networks:
+      internal:
+        ipv4_address: 10.0.0.10
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    volumes:
+      - type: bind
+        source: ./DNS/conf
+        target: /etc/unbound
+        read_only: true
+  dhcp:
+    build:
+      context: DHCP
+      dockerfile: dockerfile
+    network_mode: host
+    volumes:
+      - type: bind
+        source: ./DHCP/conf
+        target: /etc/dhcp/
+        read_only: true
+      - type: volume
+        source: leases
+        target: /var/lib/dhcp/
+    restart: unless-stopped 
+networks:
+  internal:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
+          gateway: 10.0.0.1
+
+volumes:
+  leases:

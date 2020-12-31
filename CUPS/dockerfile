@@ -1,0 +1,34 @@
+FROM debian:stable-20201209-slim
+
+# Install Packages (basic tools, basic drivers, HP drivers (FRI))
+RUN apt-get update \
+&& apt-get install -y \
+  sudo \
+  whois \
+  cups \
+  cups-client \
+  cups-bsd \
+  cups-filters \
+  foomatic-db-compressed-ppds \
+  printer-driver-all \
+  openprinting-ppds \
+  hpijs-ppds \
+  hp-ppd \
+  hplip \
+  smbclient \
+  printer-driver-cups-pdf \
+  printer-driver-gutenprint \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
+
+# Create User
+RUN useradd -M  -g lpadmin jerome --password=$(mkpasswd print)
+
+# Add ppd files
+# RICOH IM C2000
+ADD http://www.openprinting.org/ppd-o-matic.php?driver=PDF-Ricoh&printer=Ricoh-IM_C2000&show=0 /usr/share/cups/model/Ricoh-IM_C2000-PDF.ppd
+
+# Add conf file
+ADD cupsd.conf /etc/cups/cupsd.conf
+
+CMD ["/usr/sbin/cupsd", "-f"]

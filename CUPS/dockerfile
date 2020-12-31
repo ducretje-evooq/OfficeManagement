@@ -22,7 +22,7 @@ RUN apt-get update \
 && rm -rf /var/lib/apt/lists/*
 
 # Create User
-RUN useradd -M  -g lpadmin jerome --password=$(mkpasswd print)
+RUN useradd -M  -g lpadmin cups --password=$(mkpasswd $CUPS_PASS)
 
 # Add ppd files
 # RICOH IM C2000
@@ -30,5 +30,7 @@ ADD http://www.openprinting.org/ppd-o-matic.php?driver=PDF-Ricoh&printer=Ricoh-I
 
 # Add conf file
 ADD cupsd.conf /etc/cups/cupsd.conf
+
+EXPOSE 631
 
 CMD ["/usr/sbin/cupsd", "-f"]
